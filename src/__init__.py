@@ -1,4 +1,11 @@
-from strips import Dominio, Objeto, Variable, Predicado, DeclaracionDePredicado, No, Acción, Problema, Planner, BFS
+from dominio import Dominio
+from predicado import DeclaracionDePredicado, No, Objeto
+from accion import Acción
+from planner import Planner
+from problema import Problema
+from bfs import BFS
+from dominio import Dominio
+from variable import Variable
 
 # Variables
 contenedor = Variable('?c', 'contenedor')
