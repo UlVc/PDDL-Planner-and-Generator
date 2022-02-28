@@ -1,0 +1,27 @@
+(define (domain platform-worker-robot)
+    (:requirements :strips :typing)
+    (:types
+        contenedor
+        pila
+        grúa
+    )
+    (:predicates
+        (sostiene ?k - grúa ?c - contenedor)
+        (libre ?k - grúa)
+        (en ?c - contenedor ?p - pila)
+        (hasta_arriba ?c - contenedor ?p - pila)
+        (sobre ?k1 - contenedor ?k2 - contenedor))
+    )
+    (:action toma
+        :parameters   (?k - grúa ?c - contenedor ?p - pila) 
+        :vars         (?otro - contenedor)
+        :precondition (and (libre ?k) (en ?c ?p) (hasta_arriba ?c ?p) (sobre ?c ?otro))
+        :effect       (and (sostiene ?k ?c) (hasta_arriba ?otro ?p) (not (en ?c ?p)) (not (hasta_arriba ?c ?p)) (not (sobre ?c ?otro)) (not (libre ?k)))
+    )
+    (:action pon
+        :parameters   (?k - grúa ?c - contenedor ?p - pila) 
+        :vars         (?otro - contenedor)
+        :precondition (and (sostiene ?k ?c) (hasta_arriba ?otro ?p))
+        :effect       (and (en ?c ?p) (hasta_arriba ?c ?p) (sobre ?c ?otro) (not (hasta_arriba ?otro ?p)) (not (sostiene ?k ?c)) (libre ?k))
+    )
+)

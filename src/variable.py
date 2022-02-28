@@ -1,40 +1,40 @@
 class Variable:
-    """ Variable tipada. """
-    def __init__(self, nombre, tipo, valor=None):
+    """Representation of a typed variable."""
+    def __init__(self, name, type, value=None):
         """
-        :param nombre: símbolo nombre de esta variable.  Los nombres de variables inician con ?
-        :param tipo: tipo de la variable, debe estar registrado en la descripción del dominio
-        :param valor: objeto vinculado a esta variable, si es None la variable está libre
+        :param name: Name of the variable. The names start with ?
+        :param type: Type of the variable. It must be registered in the domain description.
+        :param value: Object linked to this variable, if it's None the variable is free.
         """
-        self.nombre = nombre
-        self.tipo = tipo
-        self._valor = valor
+        self.name = name
+        self.type = type
+        self._value = value
 
     @property
-    def valor(self):
-        return self._valor
+    def value(self):
+        return self._value
 
-    @valor.setter
-    def valor(self, valor_nuevo):
+    @value.setter
+    def value(self, new_value):
         """
-        Permite asignar None o un valor de tipo de esta variable.
+        :param new_value: New value to assign.
         """
-        if valor_nuevo and valor_nuevo.tipo != self.tipo:
-            raise Exception(f"{valor_nuevo} no es de tipo {self.tipo}")
-        self._valor = valor_nuevo
+        if new_value and new_value.type != self.type:
+            raise Exception(f"{new_value} is not of type {self.type}.")
+        self._value = new_value
 
-    @valor.deleter
-    def valor(self):
-        self._valor = None
+    @value.deleter
+    def value(self):
+        self._value = None
 
     def __str__(self):
-        if self.valor:
-            return self.valor.nombre
-        return "{} - {}".format(self.nombre, self.tipo)
+        if self._value:
+            return self._value.name
+        return f'{self.name} - {self.type}'
     
     def __eq__(self, variable):
-        if self.tipo == variable.tipo:
-            if self.valor:
-                return self.valor.nombre == variable.valor.nombre
-            return self.nombre == variable.nombre
+        if self.type == variable.type:
+            if self._value:
+                return self._value.name == variable._value.name
+            return self.name == variable.name
         return False

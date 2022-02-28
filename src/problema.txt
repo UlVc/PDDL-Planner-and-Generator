@@ -1,0 +1,33 @@
+(define (problem dwrpb1
+    (:domain platform-worker-robot)
+    (:objects
+      ca cb cc cd ce cf pallet - contenedor
+      k1 k2 - grúa
+      p1 q1 p2 q2 - pila)
+    (:init
+      (en ca p1)
+      (en cb p1)
+      (en cc p1)
+      (en cd q1)
+      (en ce q1)
+      (en cf q1)
+      (sobre ca pallet)
+      (sobre cb ca)
+      (sobre cc cb)
+      (sobre cd pallet)
+      (sobre ce cd)
+      (sobre cf ce)
+      (hasta_arriba cc p1)
+      (hasta_arriba cf q1)
+      (hasta_arriba pallet p2)
+      (hasta_arriba pallet q2)
+      (libre k1)
+      (libre k2))
+    (:goal
+      (and (en ca p2)
+      (en cb q2)
+      (en cc p2)
+      (en cd q2)
+      (en ce q2)
+      (en cf q2)))
+)

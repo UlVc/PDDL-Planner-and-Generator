@@ -1,10 +1,9 @@
-from dominio import Dominio
-from predicado import DeclaracionDePredicado, No, Objeto
-from accion import Acción
+from domain import Domain
+from predicate import Fact, Not, Object
+from action import Action
 from planner import Planner
-from problema import Problema
+from problem import Problem
 from bfs import BFS
-from dominio import Dominio
 from variable import Variable
 
 # Variables
@@ -14,11 +13,11 @@ grua = Variable('?k', 'grúa')
 pila = Variable('?p', 'pila')
 
 # Predicados
-predicados = [DeclaracionDePredicado('sostiene', [grua, contenedor]),
-                DeclaracionDePredicado('libre', [grua]),
-                DeclaracionDePredicado('en', [contenedor, pila]),
-                DeclaracionDePredicado('hasta_arriba', [contenedor, pila]),
-                DeclaracionDePredicado('sobre', [Variable('?k1', 'contenedor'), Variable('?k2', 'contenedor')])]
+predicados = [Fact('sostiene', [grua, contenedor]),
+                Fact('libre', [grua]),
+                Fact('en', [contenedor, pila]),
+                Fact('hasta_arriba', [contenedor, pila]),
+                Fact('sobre', [Variable('?k1', 'contenedor'), Variable('?k2', 'contenedor')])]
 
 # -----[Acción toma]-----
 
@@ -28,10 +27,10 @@ precondiciones_toma = [predicados[1](grua), predicados[2](contenedor, pila),
 
 # Efectos
 efectos_toma = [predicados[0](grua, contenedor), predicados[3](otro_contenedor, pila),
-                    No(predicados[2](contenedor, pila)), No(predicados[3](contenedor, pila)),
-                    No(predicados[4](contenedor, otro_contenedor)), No(predicados[1](grua))]
+                    Not(predicados[2](contenedor, pila)), Not(predicados[3](contenedor, pila)),
+                    Not(predicados[4](contenedor, otro_contenedor)), Not(predicados[1](grua))]
 
-accion_toma = Acción('toma', [grua, contenedor, pila], [otro_contenedor],
+accion_toma = Action('toma', [grua, contenedor, pila], [otro_contenedor],
                         precondiciones_toma, efectos_toma)
 
 # -----[Acción pon]-----
@@ -41,15 +40,15 @@ precondiciones_pon = [predicados[0](grua, contenedor), predicados[3](otro_conten
 
 # Efectos
 efectos_pon = [predicados[2](contenedor, pila), predicados[3](contenedor, pila),
-                predicados[4](contenedor, otro_contenedor), No(predicados[3](otro_contenedor, pila)),
-                No(predicados[0](grua, contenedor)), predicados[1](grua)]
+                predicados[4](contenedor, otro_contenedor), Not(predicados[3](otro_contenedor, pila)),
+                Not(predicados[0](grua, contenedor)), predicados[1](grua)]
 
-accion_pon = Acción('pon', [grua, contenedor, pila], [otro_contenedor],
+accion_pon = Action('pon', [grua, contenedor, pila], [otro_contenedor],
                         precondiciones_pon, efectos_pon)
 
 # ------ Dominio ------
 
-dominio = Dominio('platform-worker-robot',
+dominio = Domain('platform-worker-robot',
 ['contenedor', 'pila', 'grúa'],
 predicados,
 [accion_toma, accion_pon])
@@ -57,19 +56,19 @@ predicados,
 # ------ Problema ------
 
 # Objetos
-ca = Objeto('ca', 'contenedor')
-cb = Objeto('cb', 'contenedor')
-cc = Objeto('cc', 'contenedor')
-cd = Objeto('cd', 'contenedor')
-ce = Objeto('ce', 'contenedor')
-cf = Objeto('cf', 'contenedor')
-pallet = Objeto('pallet', 'contenedor')
-k1 = Objeto('k1', 'grúa')
-k2 = Objeto('k2', 'grúa')
-p1 = Objeto('p1', 'pila')
-p2 = Objeto('p2', 'pila')
-q1 = Objeto('q1', 'pila')
-q2 = Objeto('q2', 'pila')
+ca = Object('ca', 'contenedor')
+cb = Object('cb', 'contenedor')
+cc = Object('cc', 'contenedor')
+cd = Object('cd', 'contenedor')
+ce = Object('ce', 'contenedor')
+cf = Object('cf', 'contenedor')
+pallet = Object('pallet', 'contenedor')
+k1 = Object('k1', 'grúa')
+k2 = Object('k2', 'grúa')
+p1 = Object('p1', 'pila')
+p2 = Object('p2', 'pila')
+q1 = Object('q1', 'pila')
+q2 = Object('q2', 'pila')
 
 objetos = [ca, cb, cc, cd, ce, cf, pallet,
 k1, k2,
@@ -86,10 +85,10 @@ predicados_init = [predicados[2](ca, p1), predicados[2](cb, p1), predicados[2](c
 predicados_meta = [predicados[2](ca, p2), predicados[2](cb, q2), predicados[2](cc, p2),
                     predicados[2](cd, q2), predicados[2](ce, q2), predicados[2](cf, q2)]
 
-predicados_meta_ligero = [predicados[2](cf, p2), predicados[2](ce, q2)]
+predicados_meta_ligero = [predicados[2](cf, p2)]
 
 # Definición del problema
-problema = Problema('dwrpb1', dominio, objetos, predicados_init, predicados_meta)
+problema = Problem('dwrpb1', dominio, objetos, predicados_init, predicados_meta)
 
 # Guardamos el dominio y el problema en un archivo de texto para fácilidad de manejo
 txt = open('./dominio.txt', 'w')
@@ -99,38 +98,31 @@ txt = open('./problema.txt', 'w')
 txt.write(str(problema))
 txt.close()
 
-print('Dominio:')
-print(dominio)
-print('Problema:')
-print(problema)
-
 # Definición del planificador
 planner = Planner(dominio, problema)
 
 # Vemos qué acciones son aplicables en el estado actual.
-planes = planner.acciones_aplicables()
+acciones = planner.applicable_actions()
 
 print('Posibles acciones a ejecutar con sus predicados a usar respectivos:')
-for d in planes:
-     print(d.nombre)
-     for x in planes[d]:
+for d in acciones:
+     print(d.name)
+     for x in acciones[d]:
          print([str(c) for c in x])
 
 # ----[Segunda parte del proyecto]----
 
 # Usaremos una meta más ligera por motivos de complejidad. Nada más nos interesa mover el bloque cf a la pila p2 y el bloque ce a la pila q2.
-predicados_meta_ligero = [predicados[2](cf, p2), predicados[2](ce, q2)]
+predicados_meta_ligero = [predicados[2](cf, p2)]
 
 # Definición del problema
-problema = Problema('dwrpb1', dominio, objetos, predicados_init, predicados_meta_ligero)
+problema = Problem('dwrpb1', dominio, objetos, predicados_init, predicados_meta_ligero)
 planner = Planner(dominio, problema)
 
 print('\nSegunda parte: Búsqueda por amplitud\n')
 # Ejecutamos una búsqueda por amplitud pero usando una meta más ligera.
 bfs = BFS(planner)
 p = bfs.busqueda_por_amplitud() # Plan obtenido tras ejecutar BFS.
-# Imprimimos el problema obtenido. Este tiene en su estado los predicados que corresponden a la meta.
-print('\nProblema obtenido:\n')
-print(p.problema)
 # Guardamos las acciones a aplicar para llegar al problema obtuvido.
-p.escribir_acciones('./acciones.txt')
+p.write_actions('./acciones.txt')
+
