@@ -64,4 +64,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Note
 
-This was the final project for my undergraduate class of AI imparted by [Dra. Verónica Esther Arriola Ríos](https://sites.google.com/view/angeldeplata/). The code for the creating the objects for PDDL were provided. However, the code for the planner (including the BFS algorithm), translation, format improvements and defining both domain and problem was done by myself.
+This was the final project for my undergraduate class of AI imparted by [Dra. Verónica Esther Arriola Ríos](https://sites.google.com/view/angeldeplata/). The code for creating PDDL objects were provided. However, the code for the planner (including the BFS algorithm), translation, format improvements and defining both domain and problem was done by myself.
