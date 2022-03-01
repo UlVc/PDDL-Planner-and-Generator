@@ -1,5 +1,0 @@
-Actions to take, starting from the top:
-
-toma: ['(en cf q1)', '(sobre cf ce)', '(hasta_arriba cf q1)', '(libre k1)']
-
-pon: ['(hasta_arriba pallet p2)', '(sostiene k1 cf)']
