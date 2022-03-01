@@ -84,10 +84,10 @@ def load():
                         predicates[3](cc, p1), predicates[3](cf, q1), predicates[3](pallet, p2), predicates[3](pallet, q2),
                         predicates[1](k1), predicates[1](k2)]
 
-    #goal = [predicates[2](ca, p2), predicates[2](cb, q2), predicates[2](cc, p2),
-    #                    predicates[2](cd, q2), predicates[2](ce, q2), predicates[2](cf, q2)]
+    goal = [predicates[2](ca, p2), predicates[2](cb, q2), predicates[2](cc, p2),
+                        predicates[2](cd, q2), predicates[2](ce, q2), predicates[2](cf, q2)]
 
-    goal = [predicates[2](cf, p2), predicates[2](ce, q2)]
+    #goal = [predicates[2](cf, p2), predicates[2](ce, q2)]
 
     # Definición del problema
     problem = Problem('dwrpb1', domain, objects, initial_state, goal)
@@ -104,14 +104,13 @@ def main():
     txt.write(str(problem))
     txt.close()
 
-    # Definición del planificador
     planner = Planner(domain, problem)
 
-    print('\nSegunda parte: Búsqueda por amplitud\n')
-    # Ejecutamos una búsqueda por amplitud pero usando una meta más ligera.
+    print('\nSearching the goal using BFS...\n')
+
     bfs = BFS(planner)
     p = bfs.busqueda_por_amplitud()
-    # Guardamos las acciones a aplicar para llegar al problema obtuvido.
+
     p.write_actions('./actions.txt')
 
 if __name__ == '__main__':

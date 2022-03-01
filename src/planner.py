@@ -83,6 +83,26 @@ class Planner:
 
         return True
 
+    def how_many_goals(self):
+        """"
+        Returns how many goals has been accomplished. This will help in BFS, i.e., with this
+        we will filter all the states that are negative. A negative state is when you take an action
+        that removes one of your goals/subgoals.
+
+        As an example, suppose that a robot arm grabs a block from the stack A. If the goal is to put 
+        the block on the stack B, then a negative state will be if the robot puts again the block on A.
+
+        The actual implementation from the above idea will be on the algorithm that finds the plan.
+        This method only returns how many goals has been accomplished.
+        """
+        number_of_goals = 0
+
+        for predicado in self.problem.goal:
+            if predicado in self.problem.state:
+                number_of_goals += 1
+
+        return number_of_goals
+
     def obtain_actions(self):
         """Returns, in the form of a chain, the actions that were done to reach the problem of this planner."""
         if self.father == None:

@@ -10,6 +10,7 @@ class BFS:
         queue.append(self.planner)
         self.planner.explorado = True
         previous_level = -1
+        goals = 0
 
         while len(queue) != 0:
             v = queue.pop(0)
@@ -26,8 +27,11 @@ class BFS:
             for a in actions:
                 for pred in actions[a]:
                     p = v.apply_action(a, pred)
-                    if not(p.explored):
-                        p.explored = True
-                        queue.append(p)
+                    x = p.how_many_goals()
+                    if goals <= x:
+                        goals = x
+                        if not(p.explored):
+                            p.explored = True
+                            queue.append(p)
 
         return -1
