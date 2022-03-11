@@ -58,10 +58,6 @@ For executing the program, execute the `__init__` file. For example, if you are 
 
 On the terminal it will say in which level is exploring the nodes using BFS. After terminating, it will create 3 text files: the domain, the problem, and the actions to take to get to the goal.
 
-## Contribution
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
 ## Note
 
 This was the final project for my undergraduate class of AI imparted by [Dra. Verónica Esther Arriola Ríos](https://sites.google.com/view/angeldeplata/). The code for creating PDDL objects were provided. However, the code for the planner (including the BFS algorithm), translation, format improvements and defining both domain and problem was done by myself.
